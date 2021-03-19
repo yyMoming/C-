@@ -46,6 +46,8 @@
    }
    ```
 
+   
+
 2. ### 函数模板和普通函数的区别
 
    - 函数模板不允许进行自动类型转化（严格的类型匹配）
@@ -91,6 +93,8 @@
    }
    ```
 
+   
+
 3. ### C++  编译器模板机制剖析
 
    （1）C++ 编译流程
@@ -106,6 +110,8 @@
    - 编译器不是直接调用函数模板
    - 函数模板通过具体类型产生不同函数
    - 编译器会对函数模板进行<font color='red'>两次编译</font>，在声明的地方对模板代码本身进行编译，在调用的地方对参数替换后的代码进行编译。
+
+   
 
 4. ###  类模板
 
@@ -158,5 +164,60 @@
 
    
 
+5. ### 非类型模板参数
 
+   > **非类型参数, 可用在模板中自定义为整型类型, 指针或引用, 不能定义为浮点数等其他类型。非类型模板参数在编译期间就已经实例化, 所以其模板实参必须是常量表达式。**
 
+   ```c++
+   template<int N>; 	// N是编译时就确定的常量表达式
+   template<size_t N, size_t M>;	// N,M是编译时就确定的常量表达式
+   template<class T, std::size_t N>	// 这里的N是编译时期就知道了, 所以可以加上constexpr关键字
+       constexpr std::size_t ArrSize(T (&a)[N]) noexcept	
+   {
+       return N;
+   }
+   int a[100]; ArrSize(a);
+   ```
+
+   
+
+   - 非类型类模板参数：模板参数不限定于类型，普通值也可以作为模板参数。在基于类型的模板中，模板实例化时所依赖的是某一类型的模板参数，直到模板实例化时，这些参数细节才被真正确定。而**非模板参数**，面对的未加确定的参数细节是**值**，而非类型，当要使用**基于值的模板**时，你必须显示指定这些值。
+
+   ```c++
+   template<typename T, int MAXSIZE>
+   class Stack
+   {
+   public:
+       Stack():idx(0){}
+       bool empty() const { return idx == 0;}
+       bool full() const { return idx == MAXSIZE;}
+       void push(const T&);
+       void pop();
+       T& top();
+       const T& top() const;
+   private:
+       int idx; 
+       T elems[MAXSIZE];
+   }
+   
+   int main(){
+   		Stack<int, 10> int10Stack;
+       Stack<int, 20> int20Stack;
+   }
+   ```
+
+   数组的元素类型由模板类型参数`typename T`指定，而一位数组在初始化时必须指定其大小，这个大小便可通过一个非类型的模板参数`int MAXSIZE`指定，当然也可通过构造函数传递。
+
+   > **这里，*int10Stack* 和 *int20Stack* 属于不同类型，二者不存在显式或隐式类型转换。**
+
+   - 非类型函数模板参数：
+
+   ```c++
+   template<typename T, int VAL>
+   T addValue(const T& x)
+   {
+       return x + VAL;
+   }
+   ```
+
+   
