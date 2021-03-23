@@ -1,4 +1,4 @@
-## 关键词：inline
+## 关键字：inline
 
 ### 1. inline 关键词
 
