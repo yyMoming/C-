@@ -6,7 +6,7 @@
 
 > <font color='green'>`virtual`</font> 是 C++ 面向对象的一个关键字。运用于描述虚函数和多态的运行。
 
-## 
+
 
 ## 2. 虚函数
 
@@ -14,7 +14,7 @@
 
 ##### 		1）普通继承
 
-​	<font color='green'>`Example 1：`</font>
+​	<font color='green'>`Example 1：`</font>
 
 ```c++
 class A {
@@ -121,7 +121,7 @@ int main() {
 
 ##### 	3）纯虚函数：必须要被覆写的函数，基类不能被实例化
 
-> 格式：<font color='green'>`vitual <ret_type> <func_name>(args) = 0`</font>
+> 格式：<font color='green'>`vitual <ret_type> <func_name>(args) = 0`</font>
 
 ​	<font color='green'>`Example 3：`</font> 
 
